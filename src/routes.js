@@ -22,7 +22,11 @@ const Routes = () => {
                 />
                 <Stack.Screen
                     name='Profile'
-                    options={{ title: 'Github Profile' }}
+                    options={{
+                        title: 'Github Profile',
+                        headerStyle: { backgroundColor: '#7D40E7'},
+                        headerTintColor: '#FFF'
+                    }}
                     component={ Profile }
                 />
             </Stack.Navigator>
