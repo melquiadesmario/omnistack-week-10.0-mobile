@@ -9,6 +9,7 @@ import api from '../services/api'
 const Main = ({ navigation }) => {
     const [devs, setDevs] = useState([])
     const [currentRegion, setCurrentRegion] = useState(null)
+    const [techs, setTechs] = useState('')
 
     useEffect(() => {
         async function loadInitialPosition(){
@@ -39,12 +40,10 @@ const Main = ({ navigation }) => {
             params: {
                 latitude,
                 longitude,
-                techs: 'ReactJS'
+                techs
             }
         })
-
         setDevs(response.data.devs)
-        console.log(devs)
     }
 
     function handleRegionChanged(region){
@@ -57,7 +56,7 @@ const Main = ({ navigation }) => {
         <>
             <MapView onRegionChangeComplete={ handleRegionChanged } initialRegion={ currentRegion } style={ styles.map }>
                 { devs.map(dev => (
-                    <Marker key={ dev._id } coordinate={{ latitude: dev.location.coordinates[1], longitude: dev.location.coordinates[0] }}>
+                    <Marker key={ dev._id } coordinate={{ longitude: dev.location.coordinates[0], latitude: dev.location.coordinates[1] }}>
                         <Image style={ styles.avatar } source={{ uri: dev.avatar_url }} />
                         <Callout onPress={() => {
                             navigation.navigate('Profile', { github_username: dev.github_username })
@@ -78,6 +77,8 @@ const Main = ({ navigation }) => {
                     placeholderTextColor='#999'
                     autoCapitalize='words'
                     autoCorrect={ false }
+                    value={ techs }
+                    onChangeText={ setTechs }
                 />
                 <TouchableOpacity onPress={ loadDevs } style={ styles.loadButton }>
                     <MaterialIcons name='my-location' size={ 20 } color='#FFF' />
